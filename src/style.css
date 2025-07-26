@@ -1,0 +1,40 @@
+@import "tailwindcss";
+
+/* Base styles with system color scheme support */
+@layer base {
+  html {
+    @apply bg-gray-100 text-gray-900 dark:bg-gray-900 dark:text-gray-100;
+  }
+  
+  body {
+    @apply min-h-screen;
+  }
+  
+  /* Ensure proper contrast for interactive elements */
+  button {
+    @apply transition-colors duration-200;
+  }
+  
+  input, textarea {
+    @apply dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100;
+  }
+}
+
+/* Custom component styles */
+@layer components {
+  .card {
+    @apply bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm;
+  }
+  
+  .btn-primary {
+    @apply bg-blue-600 hover:bg-blue-700 text-white;
+  }
+  
+  .btn-secondary {
+    @apply bg-gray-100 hover:bg-gray-200 text-gray-700 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-200;
+  }
+  
+  .text-muted {
+    @apply text-gray-600 dark:text-gray-400;
+  }
+}
