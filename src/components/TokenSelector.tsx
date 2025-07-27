@@ -1,13 +1,14 @@
 import { useSignal } from "@preact/signals";
 import type { TargetedEvent } from "preact/compat";
 import { useChainId } from "wagmi";
-import { chainConfig } from "../config/chains";
+import { chainConfig, supportedChains } from "../config/chains";
 import { isNativeMode, selectedToken, type Token } from "../globalSignal";
 
 export function TokenSelector() {
 	const customTokenAddress = useSignal("");
 	const chainId = useChainId();
 
+	const currentChain = supportedChains.find((chain) => chain.id === chainId);
 	const currentChainConfig = chainConfig[chainId as keyof typeof chainConfig];
 	const availableTokens = currentChainConfig?.tokens || [];
 
@@ -43,7 +44,7 @@ export function TokenSelector() {
 			</h3>
 
 			{/* Mode Selection */}
-			<div class="mb-4 space-y-2">
+			<div class="mb-4 flex gap-2">
 				<label class="flex items-center">
 					<input
 						type="radio"
@@ -53,7 +54,7 @@ export function TokenSelector() {
 						class="mr-2 text-blue-600 bg-gray-100 dark:bg-gray-700 border-gray-300 dark:border-gray-600"
 					/>
 					<span class="text-sm text-gray-700 dark:text-gray-300">
-						Native Token (BNB/INIT)
+						{currentChain?.nativeCurrency.symbol}
 					</span>
 				</label>
 				<label class="flex items-center">
@@ -85,11 +86,10 @@ export function TokenSelector() {
 										key={token.address}
 										type="button"
 										onClick={() => (selectedToken.value = token)}
-										class={`w-full p-3 text-left border rounded transition-colors ${
-											selectedToken.value?.address === token.address
-												? "border-blue-500 dark:border-blue-400 bg-blue-50 dark:bg-blue-900/20"
-												: "border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500 bg-white dark:bg-gray-800"
-										}`}
+										class={`w-full p-3 text-left border rounded transition-colors ${selectedToken.value?.address === token.address
+											? "border-blue-500 dark:border-blue-400 bg-blue-50 dark:bg-blue-900/20"
+											: "border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500 bg-white dark:bg-gray-800"
+											}`}
 									>
 										<div class="font-medium text-sm text-gray-900 dark:text-gray-100">
 											{token.name} ({token.symbol})
