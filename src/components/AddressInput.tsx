@@ -39,7 +39,7 @@ export function AddressInput() {
 		lines.forEach((line, index) => {
 			let parts = line.trim().split(",");
 			if (parts.length === 1) {
-				parts = line.trim().split(" ");
+				parts = line.trim().split(/\s+/);
 			}
 			if (parts.length >= 2) {
 				const address = parts[0].trim();
