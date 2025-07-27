@@ -1,9 +1,18 @@
-import { useChainId, useSwitchChain } from "wagmi";
+import { useAccount, useChainId, useSwitchChain } from "wagmi";
 import { supportedChains } from "../config/chains";
+import { useEffect } from "preact/hooks";
 
 export function ChainSelector() {
 	const chainId = useChainId();
+	const { isConnected } = useAccount();
 	const { switchChain, isPending } = useSwitchChain();
+
+	useEffect(() => {
+		if (isConnected) {
+			switchChain({ chainId: supportedChains[0].id });
+		}
+	}, [isConnected]);
+
 	return (
 		<div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4">
 			<h3 class="text-sm font-medium text-gray-900 dark:text-gray-100 mb-3">
